@@ -44,6 +44,7 @@ if __name__ == '__main__':
     model = linear_model.LogisticRegression().fit(X_train, y_train)
     print(model.score(X_train, y_train))
 
+
     y_pred = model.predict(X_test)
     print("Predicted : ", y_pred)
     print("Actual : ", y_test)
