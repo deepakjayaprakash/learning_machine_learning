@@ -1,10 +1,9 @@
 import math
 
+import numpy as np
 import pandas as pd
 import quandl as q
-import numpy as np
-from sklearn import preprocessing, svm
-from sklearn.linear_model import LinearRegression
+from sklearn import preprocessing
 
 
 def main():

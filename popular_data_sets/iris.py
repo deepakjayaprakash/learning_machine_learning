@@ -19,7 +19,7 @@ def main():
         X, y, test_size=0.3, random_state=1
     )
     print_data_split(X_test, X_train)
-    # classify_knn(X_test, X_train, y_test, y_train, iris)
+    classify_knn(X_test, X_train, y_test, y_train, iris)
 
 def classify_knn(X_test, X_train, y_test, y_train, iris):
     classifier_knn = KNeighborsClassifier(n_neighbors=3)

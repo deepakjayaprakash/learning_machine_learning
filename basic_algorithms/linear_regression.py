@@ -1,9 +1,10 @@
-import numpy as np
-from sklearn.linear_model import LinearRegression
-from sklearn import datasets, linear_model, metrics
 import matplotlib.pyplot as plt
-from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
+import numpy as np
+from sklearn import datasets, linear_model
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import train_test_split
+
 
 def printStat(regr1):
     print(regr1.predict(np.array([[3, 5]])))
@@ -59,7 +60,7 @@ def basic_regression():
 
 
 def regression_on_diabetes_data_set_data_frame():
-    diabetes_data = datasets.load_diabetes(as_frame= True)
+    diabetes_data = datasets.load_diabetes(as_frame=True)
     feature_names = diabetes_data.feature_names
     print("feature_names: ", feature_names)
 
