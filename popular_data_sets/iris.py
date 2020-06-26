@@ -1,11 +1,14 @@
 from sklearn import metrics
 from sklearn.datasets import load_iris
+from sklearn.ensemble import VotingClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 
 # The entire code is just to learn, you will find this code on tutorials point under the topic scikit_learn
+from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
 
 
@@ -51,6 +54,42 @@ def naive_bayes(X_test, X_train, y_test, y_train):
     print(cm)
 
 
+def ensemble_voting_classifier(X_test, X_train, y_test, y_train):
+    print("================================================")
+    print("Voint Classifer")
+    estimator = []
+    estimator.append(('LR',
+                      LogisticRegression(solver='lbfgs',
+                                         multi_class='multinomial',
+                                         max_iter=200)))
+    estimator.append(('SVC', SVC(gamma='auto', probability=True)))
+    estimator.append(('DTC', DecisionTreeClassifier()))
+
+    # Voting Classifier with hard voting
+    vot_hard = VotingClassifier(estimators=estimator, voting='hard')
+    vot_hard.fit(X_train, y_train)
+    voting_pred = vot_hard.predict(X_test)
+
+    print_metrics(voting_pred, y_test)
+
+    vot_soft = VotingClassifier(estimators=estimator, voting='soft')
+    vot_soft.fit(X_train, y_train)
+    voting_pred = vot_soft.predict(X_test)
+    print_metrics(voting_pred, y_test)
+    # print(cm)
+
+def svm(X_test, X_train, y_test, y_train):
+    print("================================================")
+    print("SVM")
+    svm = SVC(kernel="linear").fit(X_train, y_train)
+    svm_predictions = svm.predict(X_test)
+
+    # creating a confusion matrix
+    cm = confusion_matrix(y_test, svm_predictions)
+    print_metrics(svm_predictions, y_test)
+    print(cm)
+
+
 def print_data_split(X_test, X_train):
     print("testing shape : ", X_train.shape)  # prints tuple of (rows, columns)
     print("training data shape : ", X_test.shape)
@@ -78,7 +117,9 @@ if __name__ == '__main__':
     print_data_split(X_test, X_train)
     # classify_knn(X_test, X_train, y_test, y_train, iris)
     # decision_tree(X_test, X_train, y_test, y_train)
-    naive_bayes(X_test, X_train, y_test, y_train)
+    # naive_bayes(X_test, X_train, y_test, y_train)
+    # svm(X_test, X_train, y_test, y_train)
+    ensemble_voting_classifier(X_test, X_train, y_test, y_train)
 
 
 def knn(X_test, X_train, y_test, y_train, iris):
