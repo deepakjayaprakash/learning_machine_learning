@@ -7,14 +7,12 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 
-# The entire code is just to learn, you will find this code on tutorials point under the topic scikit_learn
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
 
 
 def get_correct_wrong(count_correct, count_wrong, y_pred, y_test):
     for i in y_test:
-        # print(y_test[i], ",", y_pred[i])
         if y_test[i] == y_pred[i]:
             count_correct = count_correct + 1
         else:
@@ -54,6 +52,38 @@ def naive_bayes(X_test, X_train, y_test, y_train):
     print(cm)
 
 
+def svm(X_test, X_train, y_test, y_train):
+    print("================================================")
+    print("SVM")
+    svm = SVC(kernel="linear").fit(X_train, y_train)
+    svm_predictions = svm.predict(X_test)
+
+    # creating a confusion matrix
+    cm = confusion_matrix(y_test, svm_predictions)
+    print_metrics(svm_predictions, y_test)
+    print(cm)
+
+
+def knn(X_test, X_train, y_test, y_train, iris):
+    print("================================================")
+    print("KNN ")
+    classifier_knn = KNeighborsClassifier(n_neighbors=3)
+    classifier_knn.fit(X_train, y_train)
+    y_pred = classifier_knn.predict(X_test)
+    # Finding accuracy by comparing actual response values(y_test)with predicted response value(y_pred)
+    print_metrics(y_pred, y_test)
+
+    sample = [[5, 5, 3, 2], [2, 4, 3, 5]]
+    preds = classifier_knn.predict(sample)
+    pred_species = [iris.target_names[p] for p in preds]
+    print("Predictions:", pred_species)
+
+    # Model Persistance
+    # from sklearn.externals import joblib
+    # joblib.dump(classifier_knn, 'iris_classifier_knn.joblib')
+    # joblib.load('iris_classifier_knn.joblib')
+
+
 def ensemble_voting_classifier(X_test, X_train, y_test, y_train):
     print("================================================")
     print("Voint Classifer")
@@ -76,18 +106,6 @@ def ensemble_voting_classifier(X_test, X_train, y_test, y_train):
     vot_soft.fit(X_train, y_train)
     voting_pred = vot_soft.predict(X_test)
     print_metrics(voting_pred, y_test)
-    # print(cm)
-
-def svm(X_test, X_train, y_test, y_train):
-    print("================================================")
-    print("SVM")
-    svm = SVC(kernel="linear").fit(X_train, y_train)
-    svm_predictions = svm.predict(X_test)
-
-    # creating a confusion matrix
-    cm = confusion_matrix(y_test, svm_predictions)
-    print_metrics(svm_predictions, y_test)
-    print(cm)
 
 
 def print_data_split(X_test, X_train):
@@ -120,23 +138,3 @@ if __name__ == '__main__':
     # naive_bayes(X_test, X_train, y_test, y_train)
     # svm(X_test, X_train, y_test, y_train)
     ensemble_voting_classifier(X_test, X_train, y_test, y_train)
-
-
-def knn(X_test, X_train, y_test, y_train, iris):
-    print("================================================")
-    print("KNN ")
-    classifier_knn = KNeighborsClassifier(n_neighbors=3)
-    classifier_knn.fit(X_train, y_train)
-    y_pred = classifier_knn.predict(X_test)
-    # Finding accuracy by comparing actual response values(y_test)with predicted response value(y_pred)
-    print_metrics(y_pred, y_test)
-
-    sample = [[5, 5, 3, 2], [2, 4, 3, 5]]
-    preds = classifier_knn.predict(sample)
-    pred_species = [iris.target_names[p] for p in preds]
-    print("Predictions:", pred_species)
-
-    # Model Persistance
-    # from sklearn.externals import joblib
-    # joblib.dump(classifier_knn, 'iris_classifier_knn.joblib')
-    # joblib.load('iris_classifier_knn.joblib')
