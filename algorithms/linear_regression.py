@@ -71,11 +71,13 @@ def regression_on_diabetes_data_set_data_frame():
     )
     print("train size", diabetes_X_train.shape)
     print("test size", diabetes_X_test.shape)
+    print("diabetes_y_train size", diabetes_y_train.shape)
 
     regr = linear_model.LinearRegression()
 
     regr.fit(diabetes_X_train, diabetes_y_train)
     print(regr.score(diabetes_X_train, diabetes_y_train))
+    print("typw", type(diabetes_X_test))
     diabetes_y_pred = regr.predict(diabetes_X_test)
     print("expected_results", diabetes_y_test)
     print("actual_results", diabetes_y_pred)
